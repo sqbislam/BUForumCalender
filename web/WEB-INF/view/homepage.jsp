@@ -106,6 +106,20 @@
                 <sec:authentication property="principal.username"/>
                 <sec:authentication property="principal.authorities"/>
                 <sec:authorize access="hasRole('MANAGER')">
+                    <br><br>
+                    <table>
+                    <c:forEach var="tempStudent" items="${students}">
+                        <tr>
+                            <td>${tempStudent.name}</td>
+                            <td>${tempStudent.username}</td>
+                        </tr>
+                    </c:forEach>
+                    </table>
+                    <form:form action="savePost" modelAttribute="posts" method="post">
+                        Post: <form:input path="content" class="post"/>
+                        
+                    </form:form>
+                    
                 <a href="${pageContext.request.contextPath}/edit">EDIT CALENDER</a>
                 </sec:authorize>
             </div>

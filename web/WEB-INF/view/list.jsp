@@ -7,9 +7,10 @@
     </head>
     <body>
 List
+<br>
 <c:forEach var="temp" items="${students}">
-    ${temp.name}
-    ${temp.username}
+    Name: ${temp.name} <br>
+    Username: ${temp.username} <br><br>
 </c:forEach>
     </body>
 </html>

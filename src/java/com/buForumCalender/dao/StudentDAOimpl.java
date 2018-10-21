@@ -44,6 +44,21 @@ public class StudentDAOimpl implements StudentDAO {
        return students;
        
     }
+
+    @Override
+    @Transactional
+    public Student getStudentByUsername(String name) {
+        //get current session
+       Session current = sessionfactory.getCurrentSession();
+       
+       //create query
+       Query<Student> query = current.createQuery("from Student where username='"+name+"'", Student.class);
+       
+       //get resutls
+       Student student = query.getSingleResult();
+       
+       return student;
+    }
     
     
 }

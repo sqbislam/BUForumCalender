@@ -5,19 +5,13 @@
  */
 package com.buForumCalender.dao;
 
-import com.buForumCalender.entity.Student;
-import java.util.List;
+import com.buForumCalender.entity.Posts;
 
 /**
  *
  * @author hpavilion-au171TX
  */
 
-
-public interface StudentDAO {
-    
-    public List<Student> getStudents();
-
-    public Student getStudentByUsername(String name);
-    
+public interface PostDAO {
+    public void savePost(Posts temp);
 }

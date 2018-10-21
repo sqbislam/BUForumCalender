@@ -44,3 +44,6 @@ form{
 	border:1px solid blue;
 	background:grey;
 }
+.post{
+    height: 200px;
+}
