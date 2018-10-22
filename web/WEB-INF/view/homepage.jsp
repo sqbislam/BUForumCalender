@@ -17,35 +17,35 @@
     </head>
     <body>
 
-        <!-- Main Navbar class -->
+<!--         Main Navbar class 
 
         <nav class="navbar navbar-default">
             <div class="container"> 
-                <!-- Nav bar container and headet -->
+                 Nav bar container and headet 
                 <div class="navbar-header">
-                    <!-- This button is for making the three lines when the window is made small/ not necessary
-                     but makes it look good-->
+                     This button is for making the three lines when the window is made small/ not necessary
+                     but makes it look good
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-nav-demo" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <!-- This is where the buttons start this is the main icon and brand name -->
+                     This is where the buttons start this is the main icon and brand name 
                     <a href="#" class="navbar-brand"><i class="fas fa-book"></i> BRACU FORUM</a>
                 </div>
 
-                <!-- This is the things on right of the brand name -->
+                 This is the things on right of the brand name 
                 <div class="collapse navbar-collapse" id="bs-nav-demo">
                     <ul class="nav navbar-nav">
-                        <!-- anything you want to give on the right give them between <li> Your component here</li> -->
+                         anything you want to give on the right give them between <li> Your component here</li> 
                         <li><a href="#">Home</a></li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Contact</a></li>
 
                     </ul>
 
-                    <!-- anything you want to give on the left give them between <li> Your component here</li> inside the <ul>-->
+                     anything you want to give on the left give them between <li> Your component here</li> inside the <ul>
                     <ul class="nav navbar-nav navbar-right">  
                         <li>
                             <form role="search">
@@ -54,7 +54,7 @@
                             </form>
                         </li>
 
-                        <!-- Your dropdown menu inside the li -->
+                         Your dropdown menu inside the li 
                         <li>
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -77,18 +77,19 @@
                         </li>
                         
                         <li>
-                            <form:form action="${pageContext.request.contextPath}/logout" method="POST">
+                            <form action="{pageContext.request.contextPath}/logout" method="POST">
                                 <input class="btn btn-sml" type="submit" value="logout"/>
-                            </form:form>
+                            </form>
                         </li>
-                        <!-- Add more components here as necessary -->
+                         Add more components here as necessary 
 
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> 
+  -->
 
-
+        <%@include file="header.jsp" %>
 
         <button class="btn btn-primary" >Find Courses</button>
         <button class="btn btn-primary" >Find Faculties</button>
