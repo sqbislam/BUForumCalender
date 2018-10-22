@@ -6,6 +6,7 @@
 package com.buForumCalender.dao;
 
 import com.buForumCalender.entity.Posts;
+import java.util.List;
 
 /**
  *
@@ -13,5 +14,7 @@ import com.buForumCalender.entity.Posts;
  */
 
 public interface PostDAO {
+
+    public List<Posts> getAllPosts();
     public void savePost(Posts temp);
 }

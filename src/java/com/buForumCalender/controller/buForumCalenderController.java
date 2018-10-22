@@ -33,15 +33,17 @@ public class buForumCalenderController {
     @Autowired
     private StudentDAO studentDAO;
     
-     @Autowired
-     private PostDAO postDAO;
+    @Autowired
+    private PostDAO postDAO;
      
     @RequestMapping("/")
     public String home(Model theModel){
     
+    List<Posts> postList = postDAO.getAllPosts();
     List<Student> list = studentDAO.getStudents();
     theModel.addAttribute("students", list);
     theModel.addAttribute("posts", new Posts());
+    theModel.addAttribute("allPosts", postList);
     
         return "homepage";
     }

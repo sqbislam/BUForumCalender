@@ -32,26 +32,35 @@
 
 <div class="container">
 	<div class="row">
-			<div class="col-lg-8 date mygrid"> Name of author
+			<div class="col-lg-8 date mygrid2 postHeight"> Name of author
 			<div class="row">
-				<div class="col-lg-2 mygrid">Date</div>
-				<div class="col-lg-8 mygrid">Post Here</div>
-				<div class="col-lg-2 mygrid">Submit</div>
-			</div>
+				<div class="col-lg-2 mygrid2">Date</div>
+                                <div class="col-lg-10 mygrid2">
+                                    <form:form action="savePost" modelAttribute="posts" method="post">
+                             Post:  <form:input path="content" class="post"/>
+                                     <button class="btn btn-success" value="submit">Submit</button>
+                                    </form:form>
+                                    
+                                </div>
+                        </div>
 		</div>
 	</div>
 </div>
-
+            <br>
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8 date mygrid"> Name of author
+            <c:forEach var="tempPost" items="${allPosts}">
+                  
+            <div class="row ">
+                <div class="col-lg-8 date mygrid2 postHeight"> Name of author
 			<div class="row">
-				<div class="col-lg-2 mygrid">Date</div>
-				<div class="col-lg-8 mygrid">Post Here</div>
-				<div class="col-lg-2 mygrid">like/unlike</div>
+				<div class="col-lg-2 mygrid2">${tempPost.id}</div>
+				<div class="col-lg-8 mygrid2">${tempPost.content}</div>
+				<div class="col-lg-2 mygrid2">like/unlike</div>
 			</div>
 		</div>
-	</div>
+            </div>
+                                <br>   
+            </c:forEach>
 </div>
 
                 <sec:authentication property="principal.username"/>
@@ -66,10 +75,7 @@
                         </tr>
                     </c:forEach>
                     </table>
-                    <form:form action="savePost" modelAttribute="posts" method="post">
-                        Post: <form:input path="content" class="post"/>
-                        
-                    </form:form>
+                    
                     
                 <a href="${pageContext.request.contextPath}/edit">EDIT CALENDER</a>
                 </sec:authorize>

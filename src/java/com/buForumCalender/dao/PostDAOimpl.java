@@ -7,6 +7,7 @@ package com.buForumCalender.dao;
 
 import com.buForumCalender.entity.Posts;
 import com.buForumCalender.entity.Student;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -42,6 +43,22 @@ public class PostDAOimpl implements PostDAO {
        student.addPost(temp);
        current.save(temp);
        
+    }
+
+    @Override
+    @Transactional
+    public List<Posts> getAllPosts() {
+           
+       //get current session
+       Session current = sessionfactory.getCurrentSession();
+       
+       //create query
+       Query<Posts> query = current.createQuery("from Posts", Posts.class);
+       
+       //get resutls
+       List<Posts> posts = query.getResultList();
+       
+       return posts;
     }
     
 }
