@@ -21,44 +21,49 @@ import org.springframework.stereotype.Repository;
  *
  * @author hpavilion-au171TX
  */
-
 @Repository
 public class PostDAOimpl implements PostDAO {
-    
+
+   
     @Autowired
-    StudentDAO studentDAO; 
-    
+    StudentDAO studentDAO;
+
     @Autowired
     private SessionFactory sessionfactory;
-        
+
     @Override
     @Transactional
     public void savePost(Posts temp) {
-         //get current session
-         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-         String currentPrincipalName = authentication.getName();
-         Student student = studentDAO.getStudentByUsername(currentPrincipalName);
+
+        //get current session
+        //get username of current student and find Student object accordingly
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        Student student = studentDAO.getStudentByUsername(currentPrincipalName);
+
+        //atttach timestamp to post object
+        temp.attachTime();
         
-       Session current = sessionfactory.getCurrentSession();
-       student.addPost(temp);
-       current.save(temp);
-       
+        Session current = sessionfactory.getCurrentSession();
+        student.addPost(temp);
+        current.save(temp);
+
     }
 
     @Override
     @Transactional
     public List<Posts> getAllPosts() {
-           
-       //get current session
-       Session current = sessionfactory.getCurrentSession();
-       
-       //create query
-       Query<Posts> query = current.createQuery("from Posts", Posts.class);
-       
-       //get resutls
-       List<Posts> posts = query.getResultList();
-       
-       return posts;
+
+        //get current session
+        Session current = sessionfactory.getCurrentSession();
+
+        //create query
+        Query<Posts> query = current.createQuery("from Posts p ORDER BY p.timestamp DESC", Posts.class);
+
+        //get resutls
+        List<Posts> posts = query.getResultList();
+
+        return posts;
     }
-    
+
 }

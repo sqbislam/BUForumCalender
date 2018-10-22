@@ -41,8 +41,12 @@ public class buForumCalenderController {
     
     List<Posts> postList = postDAO.getAllPosts();
     List<Student> list = studentDAO.getStudents();
+    
+    //Adding student list to page model
     theModel.addAttribute("students", list);
+    //Adding new Post object to page model 
     theModel.addAttribute("posts", new Posts());
+    //Adding all the posts list to page model
     theModel.addAttribute("allPosts", postList);
     
         return "homepage";
