@@ -25,20 +25,23 @@ import org.springframework.stereotype.Repository;
 public class PostDAOimpl implements PostDAO {
     
     @Autowired
+    StudentDAO studentDAO; 
+    
+    @Autowired
     private SessionFactory sessionfactory;
         
     @Override
     @Transactional
     public void savePost(Posts temp) {
          //get current session
-//         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//         String currentPrincipalName = authentication.getName();
-//         Student student = studentDAO.getStudentByUsername(currentPrincipalName);
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         String currentPrincipalName = authentication.getName();
+         Student student = studentDAO.getStudentByUsername(currentPrincipalName);
         
        Session current = sessionfactory.getCurrentSession();
-       Student student = current.get(Student.class, 1);
        student.addPost(temp);
        current.save(temp);
+       
     }
     
 }
