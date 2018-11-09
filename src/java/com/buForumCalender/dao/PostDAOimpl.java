@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
  *
  * @author hpavilion-au171TX
  */
+
 @Repository
 public class PostDAOimpl implements PostDAO {
 
@@ -33,7 +34,7 @@ public class PostDAOimpl implements PostDAO {
 
     @Override
     @Transactional
-    public void savePost(Posts temp) {
+    public void savePost(Posts tempPost) {
 
         //get current session
         //get username of current student and find Student object accordingly
@@ -42,11 +43,14 @@ public class PostDAOimpl implements PostDAO {
         Student student = studentDAO.getStudentByUsername(currentPrincipalName);
 
         //atttach timestamp to post object
-        temp.attachTime();
+        tempPost.attachTime();
         
-        Session current = sessionfactory.getCurrentSession();
-        student.addPost(temp);
-        current.save(temp);
+        //get current session
+        Session currentSession = sessionfactory.getCurrentSession();
+        student.addPost(tempPost);
+        
+        //save the post as an object
+        currentSession.save(tempPost);
 
     }
 
@@ -65,5 +69,22 @@ public class PostDAOimpl implements PostDAO {
 
         return posts;
     }
+    
+    
+    @Override
+    @Transactional
+    public List<Posts> getPosts(String tag) {
+                //get current session
+        Session current = sessionfactory.getCurrentSession();
 
+        //create query
+        Query<Posts> query = current.createQuery("from Posts p WHERE tag LIKE '%"+tag+"%' ORDER BY p.timestamp DESC", Posts.class);
+
+        //get resutls
+        List<Posts> posts = query.getResultList();
+
+        return posts;
+    }
+
+    
 }

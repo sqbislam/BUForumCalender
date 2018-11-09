@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+
+
+
 <html lang= "en">
     <head>
         <meta charset="UTF-8">
@@ -22,7 +31,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <!-- This is where the buttons start this is the main icon and brand name -->
-                    <a href="#" class="navbar-brand"><i class="fas fa-book"></i> BRACU FORUM</a>
+                    <a href="/BUforumCalender" class="navbar-brand"><i class="fas fa-book"></i> BRACU FORUM</a>
                 </div>
 
                 <!-- This is the things on right of the brand name -->
@@ -36,20 +45,26 @@
 
                     <!-- anything you want to give on the left give them between <li> Your component here</li> inside the <ul>-->
                     <ul class="nav navbar-nav navbar-right">  
+
                         <li>
-                            <form role="search">
-                                <input type="text" placeholder="Search">
-                                <button type="submit" class = "btn btn-default" >Go!</button>
-                            </form>
+                            <div class="searchbar">
+                                <form role="search">
+                                    <input method="GET" name="tag" type="text" placeholder="Search"/>
+                                        <button type="submit" class = "btn btn-default" >Go!</button>
+                                    </form>
+                            </div>
                         </li>
 
                         <li>
-                        <form:form action="${pageContext.request.contextPath}/logout" method="POST">
-                            <form action="{pageContext.request.contextPath}/logout" method="POST">
-                                <input class="btn btn-sml" type="submit" value="logout"/>
-                        </form:form>
-                        </form>
+                            <div class="logoutbtn">
+
+                                <form:form action="${pageContext.request.contextPath}/logout" method="POST">
+                                    <input class="btn btn-sml" type="submit" value="logout"/>
+                                </form:form>
+                            </div>
                         </li>
+
+
                         <!-- Add more components here as necessary -->
 
                     </ul>

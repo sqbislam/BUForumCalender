@@ -16,8 +16,15 @@ import java.util.List;
 
 public interface StudentDAO {
     
+    //method for getting all the students 
     public List<Student> getStudents();
 
+    //method for getting student obj by username
     public Student getStudentByUsername(String name);
+    
+    
+    
+    
+    
     
 }

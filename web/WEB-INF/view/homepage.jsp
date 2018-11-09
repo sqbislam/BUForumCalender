@@ -19,15 +19,16 @@
 
 
         <%@include file="header.jsp" %>
+        <div class="topButtons">
+            <button class="btn btn-primary" >Find Courses</button>
+            <button class="btn btn-primary" >Find Faculties</button>
+            <button class="btn btn-primary mytabs" >Your Posts</button>
+            <button class="btn btn-primary mytabs" >Departments</button>
+            &nbsp;&nbsp;Logged in as: <sec:authentication property="principal.username"/>
+            <sec:authentication property="principal.authorities"/>
+        </div>
 
-        <button class="btn btn-primary" >Find Courses</button>
-        <button class="btn btn-primary" >Find Faculties</button>
-        <button class="btn btn-primary mytabs" >Your Topics</button>
-        <button class="btn btn-primary mytabs" >Departments</button>
-        &nbsp;&nbsp;Logged in as: <sec:authentication property="principal.username"/>
-        <sec:authentication property="principal.authorities"/>
-        
-        
+
         <div class="jumbotron jmb">
             <h1>Welcome To BracU Discussion Forum </h1>
             <p>Ask any queries you have! You're just a question away!</p>
@@ -36,31 +37,57 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 date mygrid2 postHeight"> Name of author
+                <div class="col-lg-8 date mygrid2 postHeight">
                     <div class="row">
-                        <div class="col-lg-2 mygrid2">Date</div>
+                        <div class="col-lg-2 mygrid2">Post Here</div>
                         <div class="col-lg-10 mygrid2">
                             <form:form action="savePost" modelAttribute="posts" method="post">
-                                Post:  <form:input path="content" class="post"/>
-                                <button class="btn btn-success" value="submit">Submit</button>
-                            </form:form>
+                                <form:input path="content" class="post"/>
 
+                                <form:select path="tag">
+                                    <form:option value="cse320">cse320</form:option>
+                                    <form:option value="cse310">cse310</form:option>
+                                    <form:option value="cse340">cse340</form:option>
+                                    <form:option value="cse230">cse230</form:option>
+                                </form:select>       
+                                <form:button class="btn btn-success" value="submit">Submit</form:button>
+                            </form:form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <hr>
+
+
+
         <div class="container">
             <c:forEach var="tempPost" items="${allPosts}">
-
+                <!-- make url for update -->
+                <c:url var="tagLink" value="/">
+                    <c:param name="tag" value="${tempPost.tag}"/>
+                </c:url> 
+                <c:url var="deleteLink" value="/deletePost">
+                    <c:param name="postID" value="${tempPost.id}"/>
+                </c:url> 
+                 <c:url var="editLink" value="/editPost">
+                    <c:param name="postID" value="${tempPost.id}"/>
+                </c:url> 
                 <div class="row ">
                     <div class="col-lg-8 date mygrid2 postHeight">
                         <div class="row">
                             <div class="col-lg-2 mygrid2">${tempPost.student.name}</div>
-                            <div class="col-lg-8 mygrid2">${tempPost.content}</div>
-                            <div class="col-lg-2 mygrid2">${tempPost.timestamp}</div>
-
+                            <div class="col-lg-6 mygrid2">${tempPost.content}</div>
+                            <div class="col-lg-2 mygrid2"><a href="${tagLink}">#${tempPost.tag}</a></div>
+                            <div class="col-lg-1 mygrid2">${tempPost.timestamp}</div>
+                            <div class="col-lg-1 mygrid2">
+                            <c:if test = "${tempPost.student.users.username eq username}">
+                                <a href=${deleteLink}>Delete</a>
+                                <a href=${editLink}>Edit</a>
+                                
+                            </c:if>
+                            </div>
 
                         </div>
                     </div>
@@ -69,20 +96,16 @@
             </c:forEach>
         </div>
 
-        
-        <sec:authorize access="hasRole('MANAGER')">
+
+        <sec:authorize access="hasRole('TEACHER')">
             <br><br>
             <a href="${pageContext.request.contextPath}/edit">EDIT CALENDER</a>
         </sec:authorize>
-    </div>
-</div>
-
+       
 <%@include file="footer.jsp" %>
 
 <script
-    src="https://code.jquery.com/jquery-3.3.1.js"
-    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

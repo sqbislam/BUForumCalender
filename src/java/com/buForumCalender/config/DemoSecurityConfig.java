@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
     //add reference to dataSource
+    
     @Autowired
     private DataSource securityDataSource;
     
@@ -39,7 +40,7 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/").authenticated()
-                .antMatchers("/edit").hasRole("MANAGER")
+                .antMatchers("/edit").hasRole("TEACHER")
                 .and()
                 .formLogin()
                 .loginPage("/showMyLogin")

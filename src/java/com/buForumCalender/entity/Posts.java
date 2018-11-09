@@ -5,7 +5,7 @@
  */
 package com.buForumCalender.entity;
 
-import buForumCalender.utils.BuUtils;
+import com.buForumCalender.utils.BuUtils;
 import java.sql.Timestamp;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -47,6 +47,20 @@ public class Posts {
     @Column(name="timestamp")
     private Timestamp timestamp;
 
+    @Column(name="tag")
+    private String tag;
+
+    
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+    
+    
+    
     public Timestamp getTimestamp() {
         return timestamp;
     }

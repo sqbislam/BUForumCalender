@@ -99,7 +99,7 @@ section{
 }
 
 .post{
-    width:80%;
+    width:70%;
     height:50px;
 }
 .mygrid{
@@ -111,6 +111,19 @@ section{
 }
 
 .postHeight{
-    
+    padding-top:2%;
     height: 100px;
+    
+}
+
+.topButtons{
+    margin: 0px 5px 20px 20px;
+    
+}
+
+.searchbar{
+    margin-top:5px;
+}
+.logoutbtn{
+    margin:5px 5px 0px 30px;
 }
