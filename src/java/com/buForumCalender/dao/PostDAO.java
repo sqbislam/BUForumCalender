@@ -18,4 +18,10 @@ public interface PostDAO {
     public List<Posts> getAllPosts();
     public List<Posts> getPosts(String tag);
     public void savePost(Posts temp);
+
+    public void deletePost(int id);
+
+    public void updatePost(Posts tempPost);
+
+    public Posts getPostByID(int id);
 }

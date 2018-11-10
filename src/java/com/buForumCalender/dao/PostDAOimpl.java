@@ -50,7 +50,7 @@ public class PostDAOimpl implements PostDAO {
         student.addPost(tempPost);
         
         //save the post as an object
-        currentSession.save(tempPost);
+        currentSession.saveOrUpdate(tempPost);
 
     }
 
@@ -84,6 +84,43 @@ public class PostDAOimpl implements PostDAO {
         List<Posts> posts = query.getResultList();
 
         return posts;
+    }
+    
+    
+    @Override
+    @Transactional
+    public void deletePost(int id) {
+              //get current session
+        Session current = sessionfactory.getCurrentSession();
+        
+        Query query = current.createSQLQuery("delete from Posts where id=:postID");
+        query.setParameter("postID", id);
+        query.executeUpdate();
+        
+    }
+
+    @Override
+    @Transactional
+    public void updatePost(Posts tempPost) {
+         
+        tempPost.attachTime();
+        
+           //get current session
+        Session current = sessionfactory.getCurrentSession();
+        //save the post as an object
+        current.saveOrUpdate(tempPost);
+
+    }
+
+    @Override
+    @Transactional
+    public Posts getPostByID(int id) {
+        Session current = sessionfactory.getCurrentSession();
+        
+        Query<Posts> query = current.createQuery("from Posts where id="+id);
+        
+        Posts temp = query.getSingleResult();
+        return temp;
     }
 
     

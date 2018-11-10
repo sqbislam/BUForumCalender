@@ -117,6 +117,11 @@ public class Posts {
        Timestamp temp = utils.postWithTimestamp();
        
     }
+
+    @Override
+    public String toString() {
+        return id+" "+Content;
+    }
     
     
     }

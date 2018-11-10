@@ -38,7 +38,7 @@
                 <div class="collapse navbar-collapse" id="bs-nav-demo">
                     <ul class="nav navbar-nav">
                         <!-- anything you want to give on the right give them between <li> Your component here</li> -->
-                        <li><a href="#">Home</a></li>
+                        <li><a href="/BUforumCalender/student">Home</a></li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>

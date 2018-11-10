@@ -34,22 +34,19 @@
             <p>Ask any queries you have! You're just a question away!</p>
         </div>
 
-
+                    <!--        Inserting a new post -->
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 date mygrid2 postHeight">
+                <div class="col-lg-10 date mygrid postHeight">
                     <div class="row">
                         <div class="col-lg-2 mygrid2">Post Here</div>
                         <div class="col-lg-10 mygrid2">
-                            <form:form action="savePost" modelAttribute="posts" method="post">
-                                <form:input path="content" class="post"/>
-
-                                <form:select path="tag">
-                                    <form:option value="cse320">cse320</form:option>
-                                    <form:option value="cse310">cse310</form:option>
-                                    <form:option value="cse340">cse340</form:option>
-                                    <form:option value="cse230">cse230</form:option>
-                                </form:select>       
+                            <form:form action="student/savePost" modelAttribute="posts" method="post">
+                                <form:textarea type = "text" path="content" class="post"/>
+                                  &nbsp;&nbsp;#Tag: 
+                                         <form:select path="tag" items = "${taglist}">
+                                        </form:select>
+                                    &nbsp;&nbsp;&nbsp;
                                 <form:button class="btn btn-success" value="submit">Submit</form:button>
                             </form:form>
                         </div>
@@ -60,52 +57,107 @@
 
         <hr>
 
-
+        
+        <!--next 90 lines associated with editing deleting and updating posts-->
 
         <div class="container">
-            <c:forEach var="tempPost" items="${allPosts}">
-                <!-- make url for update -->
-                <c:url var="tagLink" value="/">
-                    <c:param name="tag" value="${tempPost.tag}"/>
-                </c:url> 
-                <c:url var="deleteLink" value="/deletePost">
-                    <c:param name="postID" value="${tempPost.id}"/>
-                </c:url> 
-                 <c:url var="editLink" value="/editPost">
-                    <c:param name="postID" value="${tempPost.id}"/>
-                </c:url> 
-                <div class="row ">
-                    <div class="col-lg-8 date mygrid2 postHeight">
-                        <div class="row">
-                            <div class="col-lg-2 mygrid2">${tempPost.student.name}</div>
-                            <div class="col-lg-6 mygrid2">${tempPost.content}</div>
-                            <div class="col-lg-2 mygrid2"><a href="${tagLink}">#${tempPost.tag}</a></div>
-                            <div class="col-lg-1 mygrid2">${tempPost.timestamp}</div>
-                            <div class="col-lg-1 mygrid2">
-                            <c:if test = "${tempPost.student.users.username eq username}">
-                                <a href=${deleteLink}>Delete</a>
-                                <a href=${editLink}>Edit</a>
-                                
-                            </c:if>
-                            </div>
+            <!--            Loop through all the posts requested-->
+            <c:forEach var="tempPost" items="${allPosts}" varStatus="status">
 
+
+                <!--        when edit link is clicked show an input form-->
+                <c:if test="${param.edit == tempPost.id}">
+
+
+                    <c:url var="deleteLink" value="student/deletePost">
+                        <c:param name="postID" value="${tempPost.id}"/>
+                    </c:url> 
+
+
+                    <div id="edit" class="row ">
+                        <div class="col-lg-10 date mygrid postHeight">
+                            <div class="row">
+                                <form:form action="student/editPost" modelAttribute="temp" method="post">
+                                    <form:hidden path = "id" />
+                                    <div class="col-lg-2 mygrid2">${tempPost.student.name}</div>
+                                    <div class="col-lg-6 mygrid2">
+                                        <form:textarea path="content" class="post"></form:textarea> 
+                                    </div>
+                                    <div class="col-lg-2 mygrid2"> 
+
+                                        <form:select path="tag" items = "${taglist}">
+                                        </form:select>
+
+
+                                    </div>
+                                    <div class="col-lg-1 mygrid2">${tempPost.timestamp}</div>
+                                    <div class="col-lg-1 mygrid2">
+                                        <c:if test = "${tempPost.student.users.username eq username}">
+                                            <a href=${deleteLink}>Delete</a>
+                                        </c:if>
+                                        <form:button class="btn btn-outline-primary btn-sm" value="submit">
+                                            Submit
+                                        </form:button>
+                                    </form:form>
+                                    </div>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                <br>   
+                    <br>
+                </c:if>
+
+
+                <!--                    when edit link is not clicked show the post -->
+
+                <c:if test="${param.edit != tempPost.id}">
+                    <!-- make url for update -->
+                    <c:url var="tagLink" value="/student">
+                        <c:param name="tag" value="${tempPost.tag}"/>
+                    </c:url> 
+                    <c:url var="deleteLink" value="student/deletePost">
+                        <c:param name="postID" value="${tempPost.id}"/>
+                    </c:url> 
+                    <c:url var="editLink" value="/student?edit=${tempPost.id}#edit">
+                       
+                    </c:url> 
+
+                    <div class="row ">
+                        <div class="col-lg-10 date mygrid ">
+                            <div class="row">
+                                <div class="col-lg-2 mygrid2">${tempPost.student.name}</div>
+                                <div class="col-lg-6 mygrid2">${tempPost.content}</div>
+                                <div class="col-lg-2 mygrid2"><a href="${tagLink}">#${tempPost.tag}</a></div>
+                                <div class="col-lg-1 mygrid2">${tempPost.timestamp}</div>
+                                <div class="col-lg-1 mygrid2">
+                                    <c:if test = "${tempPost.student.users.username eq username}">
+                                        <a href=${deleteLink}>Delete</a>
+                                        <a href=${editLink}>Edit</a>
+
+                                    </c:if>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </c:if>
+
+                    
+                    
             </c:forEach>
         </div>
 
 
         <sec:authorize access="hasRole('TEACHER')">
             <br><br>
-            <a href="${pageContext.request.contextPath}/edit">EDIT CALENDER</a>
+            <a href="${pageContext.request.contextPath}/teacher/edit">EDIT CALENDER</a>
         </sec:authorize>
-       
-<%@include file="footer.jsp" %>
 
-<script
-    src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</body>
+        <%@include file="footer.jsp" %>
+
+        <script
+        src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
 </html>
