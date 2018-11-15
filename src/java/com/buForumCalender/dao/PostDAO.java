@@ -5,6 +5,7 @@
  */
 package com.buForumCalender.dao;
 
+import com.buForumCalender.entity.Comments;
 import com.buForumCalender.entity.Posts;
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface PostDAO {
     public void updatePost(Posts tempPost);
 
     public Posts getPostByID(int id);
+
+    public void saveComment(Comments tempComment, int postID);
 }

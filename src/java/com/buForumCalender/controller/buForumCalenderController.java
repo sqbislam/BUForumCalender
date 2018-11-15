@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.buForumCalender.dao.PostDAO;
+import com.buForumCalender.entity.Comments;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,14 +36,18 @@ public class buForumCalenderController {
     
     private Model theModel;
     
+    private int count = 1;
+    
     @RequestMapping("/")
     public String home(){
     return "homepageMain";
     }
 
     @RequestMapping("/student")
-    public String homeStudent(Model theModel, @RequestParam(value = "tag", required = false) String tag,
-            @RequestParam(value = "edit", required = false) String id) {
+    public String homeStudent(Model theModel, 
+            @RequestParam(value = "tag", required = false) String tag,
+            @RequestParam(value = "edit", required = false) String id,
+            @RequestParam(value = "showMore", required = false) String showMore) {
         
         this.theModel = theModel;
         
@@ -50,7 +55,6 @@ public class buForumCalenderController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         
-
 
         //if tag not specified make it General
         List<Posts> postList;
@@ -66,16 +70,31 @@ public class buForumCalenderController {
         Map< String, String > tags = getTags();
         
         List<Student> list = studentDAO.getStudents();
+        
         //Adding student list to page model
         theModel.addAttribute("students", list);
+        
         //Adding new Post object to page model 
         theModel.addAttribute("posts", new Posts());
+        
+        //Adding new Comments object to page model 
+        theModel.addAttribute("tempComment", new Comments());
+        
         //Adding all the posts list to page model
         theModel.addAttribute("allPosts", postList);
+        
         //Adding username
         theModel.addAttribute("username", name);
+        
         //Add tags
         theModel.addAttribute("taglist", tags);
+        
+        if(showMore != null){
+        count = count + 1;
+        }else{
+        count = 1;}
+        //Add count
+        theModel.addAttribute("count", count);
         
         if(id!=null){
         Posts temp = postDAO.getPostByID(Integer.valueOf(id));
@@ -94,7 +113,7 @@ public class buForumCalenderController {
     public String deletePost(@RequestParam(value = "postID") int id){
         
         postDAO.deletePost(id);
-        return "redirect:/student";
+        return "redirect:/student?showMore=true";
     }
 
     @RequestMapping("/access-denied")
@@ -113,6 +132,22 @@ public class buForumCalenderController {
 
     }
     
+    //////////////////////////////////
+    
+    @PostMapping("/student/test")
+    public String saveComment(@ModelAttribute("tempComment") Comments tempComment, @RequestParam(value = "postID") int id ) {
+        
+        
+        //checking if post is empty
+        if (!"".equals(tempComment.getContent().trim())) {
+            postDAO.saveComment(tempComment, id);
+        }
+
+        return "redirect:/student";
+
+    }
+    
+    /////////////////////////////////
     
     @PostMapping("/student/editPost")
       public String editPost(@ModelAttribute("temp") Posts tempPost) {
@@ -134,4 +169,5 @@ public class buForumCalenderController {
         return tags;
     }
 
+   
 }

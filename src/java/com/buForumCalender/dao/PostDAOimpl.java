@@ -5,6 +5,7 @@
  */
 package com.buForumCalender.dao;
 
+import com.buForumCalender.entity.Comments;
 import com.buForumCalender.entity.Posts;
 import com.buForumCalender.entity.Student;
 import java.util.List;
@@ -122,6 +123,31 @@ public class PostDAOimpl implements PostDAO {
         Posts temp = query.getSingleResult();
         return temp;
     }
+
+    @Override
+    @Transactional
+    public void saveComment(Comments tempComment, int postID) {
+       //get current session
+        //get username of current student and find Student object accordingly
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        Student student = studentDAO.getStudentByUsername(currentPrincipalName);
+
+        //get current session
+        Session current = sessionfactory.getCurrentSession();
+        
+        //get the post object by id
+        Posts tempPost = getPostByID(postID);
+        
+        //add the comment to both Post and Student objs
+        tempPost.addComment(tempComment);
+        student.addComment(tempComment);
+        
+        //Save the comment obj
+        current.save(tempComment);
+    }
+    
+    
 
     
 }

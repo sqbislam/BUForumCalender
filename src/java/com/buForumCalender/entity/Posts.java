@@ -18,6 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +43,10 @@ public class Posts {
     @Column(name="id")
     private int id;
     
-    @Column
+    @Column(name="content")
     private String Content;
     
-    @Column(insertable = false, updatable = false)
-    private int Author_id;
+  
     
     @Basic
     @Column(name="timestamp")
@@ -49,8 +54,64 @@ public class Posts {
 
     @Column(name="tag")
     private String tag;
+    
+    
+    @ManyToOne(cascade={CascadeType.MERGE,
+                                            CascadeType.REFRESH,
+                                            CascadeType.PERSIST,
+                                            CascadeType.DETACH})
+    @JoinColumn(name="author_id")
+    private Student student;
+
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="posts", fetch=FetchType.EAGER)
+    private List<Comments> comments;
+
+    public Posts(String Content, String  tag, Student student) {
+        this.Content = Content;
+        this.tag = tag;
+        this.student = student;
+    }
+
+    public Posts() {
+    }
 
     
+    
+    
+    
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return Content;
+    }
+
+    public void setContent(String Content) {
+        this.Content = Content;
+    }
+
+
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void attachTime() {
+       BuUtils utils = new BuUtils();
+       Timestamp temp = utils.postWithTimestamp();
+       
+    }
+ 
     public String getTag() {
         return tag;
     }
@@ -69,55 +130,24 @@ public class Posts {
         this.timestamp = timestamp;
     }
 
+    public List<Comments> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(Comments temp){
+    if(comments == null){
+        comments = new ArrayList<>();
+    }
+    comments.add(temp);
     
-   
+    temp.setPosts(this);
+    }
     
     
-    @ManyToOne(cascade={CascadeType.MERGE,
-                                            CascadeType.REFRESH,
-                                            CascadeType.PERSIST,
-                                            CascadeType.DETACH})
-    @JoinColumn(name="author_id")
-    private Student student;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return Content;
-    }
-
-    public void setContent(String Content) {
-        this.Content = Content;
-    }
-
-    public int getAuthor_id() {
-        return Author_id;
-    }
-
-    public void setAuthor_id(int Author_id) {
-        this.Author_id = Author_id;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public void attachTime() {
-       BuUtils utils = new BuUtils();
-       Timestamp temp = utils.postWithTimestamp();
-       
-    }
-
     @Override
     public String toString() {
         return id+" "+Content;

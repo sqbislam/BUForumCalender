@@ -39,6 +39,9 @@ public class Student {
     @OneToMany(mappedBy="student")
     private List<Posts> posts;
     
+    @OneToMany(mappedBy="student")
+    private List<Comments> comments;
+    
     
     public int getId() {
         return id;
@@ -70,6 +73,15 @@ public class Student {
         }
         posts.add(temppost);
         temppost.setStudent(this);
+    }
+    
+    
+      public void addComment(Comments temp){
+        if(comments==null){
+            comments= new ArrayList<>();
+        }
+        comments.add(temp);
+        temp.setStudent(this);
     }
     
     

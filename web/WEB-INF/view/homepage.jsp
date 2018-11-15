@@ -33,121 +33,47 @@
             <h1>Welcome To BracU Discussion Forum </h1>
             <p>Ask any queries you have! You're just a question away!</p>
         </div>
+        
 
                     <!--        Inserting a new post -->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 date mygrid postHeight">
-                    <div class="row">
-                        <div class="col-lg-2 mygrid2">Post Here</div>
-                        <div class="col-lg-10 mygrid2">
-                            <form:form action="student/savePost" modelAttribute="posts" method="post">
-                                <form:textarea type = "text" path="content" class="post"/>
-                                  &nbsp;&nbsp;#Tag: 
-                                         <form:select path="tag" items = "${taglist}">
-                                        </form:select>
-                                    &nbsp;&nbsp;&nbsp;
-                                <form:button class="btn btn-success" value="submit">Submit</form:button>
-                            </form:form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <%@include file = "insertPost.jsp" %>
 
         <hr>
 
         
-        <!--next 90 lines associated with editing deleting and updating posts-->
+        <!--next lines associated with editing deleting and updating posts-->
 
         <div class="container">
+            
             <!--            Loop through all the posts requested-->
             <c:forEach var="tempPost" items="${allPosts}" varStatus="status">
+                
+                <c:if test="${status.index <= count}">
 
-
+                
                 <!--        when edit link is clicked show an input form-->
-                <c:if test="${param.edit == tempPost.id}">
+                
+                <%@include file = "editLink.jsp" %>
 
+                <!--        when edit link is not clicked show the post -->
 
-                    <c:url var="deleteLink" value="student/deletePost">
-                        <c:param name="postID" value="${tempPost.id}"/>
-                    </c:url> 
-
-
-                    <div id="edit" class="row ">
-                        <div class="col-lg-10 date mygrid postHeight">
-                            <div class="row">
-                                <form:form action="student/editPost" modelAttribute="temp" method="post">
-                                    <form:hidden path = "id" />
-                                    <div class="col-lg-2 mygrid2">${tempPost.student.name}</div>
-                                    <div class="col-lg-6 mygrid2">
-                                        <form:textarea path="content" class="post"></form:textarea> 
-                                    </div>
-                                    <div class="col-lg-2 mygrid2"> 
-
-                                        <form:select path="tag" items = "${taglist}">
-                                        </form:select>
-
-
-                                    </div>
-                                    <div class="col-lg-1 mygrid2">${tempPost.timestamp}</div>
-                                    <div class="col-lg-1 mygrid2">
-                                        <c:if test = "${tempPost.student.users.username eq username}">
-                                            <a href=${deleteLink}>Delete</a>
-                                        </c:if>
-                                        <form:button class="btn btn-outline-primary btn-sm" value="submit">
-                                            Submit
-                                        </form:button>
-                                    </form:form>
-                                    </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                </c:if>
-
-
-                <!--                    when edit link is not clicked show the post -->
-
-                <c:if test="${param.edit != tempPost.id}">
-                    <!-- make url for update -->
-                    <c:url var="tagLink" value="/student">
-                        <c:param name="tag" value="${tempPost.tag}"/>
-                    </c:url> 
-                    <c:url var="deleteLink" value="student/deletePost">
-                        <c:param name="postID" value="${tempPost.id}"/>
-                    </c:url> 
-                    <c:url var="editLink" value="/student?edit=${tempPost.id}#edit">
-                       
-                    </c:url> 
-
-                    <div class="row ">
-                        <div class="col-lg-10 date mygrid ">
-                            <div class="row">
-                                <div class="col-lg-2 mygrid2">${tempPost.student.name}</div>
-                                <div class="col-lg-6 mygrid2">${tempPost.content}</div>
-                                <div class="col-lg-2 mygrid2"><a href="${tagLink}">#${tempPost.tag}</a></div>
-                                <div class="col-lg-1 mygrid2">${tempPost.timestamp}</div>
-                                <div class="col-lg-1 mygrid2">
-                                    <c:if test = "${tempPost.student.users.username eq username}">
-                                        <a href=${deleteLink}>Delete</a>
-                                        <a href=${editLink}>Edit</a>
-
-                                    </c:if>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                </c:if>
-
+                <%@include file = "editLinkNot.jsp" %>
+                
+               
                     
-                    
+                </c:if>
+                
             </c:forEach>
+                
+                    <c:url var="showMore" value="/student">
+                        <c:param name="showMore" value="true"/>
+                    </c:url>
+                    <a href="${showMore}">Show More Posts</a> 
         </div>
 
+        
+        
+        
 
         <sec:authorize access="hasRole('TEACHER')">
             <br><br>

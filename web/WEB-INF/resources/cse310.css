@@ -125,3 +125,7 @@ section{
 .logoutbtn{
     margin:5px 5px 0px 30px;
 }
+
+textarea{
+ resize: none;   
+}
