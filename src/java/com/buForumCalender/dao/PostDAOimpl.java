@@ -179,8 +179,13 @@ public class PostDAOimpl implements PostDAO {
     }
 
     @Override
-    public void showMore() {
+    public void showMore(String f) {
+        if(f.equalsIgnoreCase("true"))
         showMoreCount += 5;
+        else{
+            if(showMoreCount > 5)
+            showMoreCount -=5;
+        }
     }
 
    

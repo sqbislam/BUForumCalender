@@ -172,9 +172,15 @@ public class buForumCalenderController {
     }
     
     @RequestMapping("student/showMore")
-    public String showMore(){
-        postDAO.showMore();
-        return "redirect:/student";        
+    public String showMore(@RequestParam(value = "flag") String flag){
+            
+            if(flag.equalsIgnoreCase("true"))
+                postDAO.showMore(flag);
+            else
+                postDAO.showMore(flag);
+        
+        
+        return "redirect:/student#anchor";        
     }
       
       

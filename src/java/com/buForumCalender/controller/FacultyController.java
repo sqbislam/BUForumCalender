@@ -153,6 +153,18 @@ public class FacultyController {
         
         return "redirect:/teacher";
     }
+    
+    @RequestMapping("teacher/showMore")
+    public String showMore(@RequestParam(value = "flag") String flag){
+        
+            if(flag.equalsIgnoreCase("true"))
+                postDAO.showMore(flag);
+            else
+                postDAO.showMore(flag);
+
+        
+        return "redirect:/teacher";        
+    }
       
     private Map<String, String> getTags() {
        Map< String, String > tags = new HashMap<String, String>();

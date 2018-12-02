@@ -8,7 +8,7 @@
         <title>Login </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
         <style>
             
@@ -21,11 +21,11 @@
             }
             h1{
                 padding:50px;
-                background-color: rgb(219, 228, 255);
+                background-color: #BBDEFB;
                 text-align: center;
             }
             body{
-                background-color: rgb(234, 241, 255);
+                background-color:rgba(187,222,251,0.5) ;
 
             }
             form{

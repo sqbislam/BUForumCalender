@@ -39,10 +39,10 @@
                     <ul class="nav navbar-nav">
                         <!-- anything you want to give on the right give them between <li> Your component here</li> -->
                         <sec:authorize access="hasRole('STUDENT')">
-                        <li><a href="/BUforumCalender/student">Home</a></li>
+                        <li><a href="/BUforumCalender/student">Student</a></li>
                         </sec:authorize>
-                        <li><a href="${pageContext.request.contextPath}/teacher">About</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="${pageContext.request.contextPath}/teacher">General</a></li>
+                        <li><a href="${pageContext.request.contextPath}/calendar">Calendar</a></li>
                     </ul>
 
                     <!-- anything you want to give on the left give them between <li> Your component here</li> inside the <ul>-->

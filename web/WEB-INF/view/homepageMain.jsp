@@ -20,10 +20,6 @@
 
         <%@include file="header.jsp" %>
         <div class="topButtons">
-            <button class="btn btn-primary" >Find Courses</button>
-            <button class="btn btn-primary" >Find Faculties</button>
-            <button class="btn btn-primary mytabs" >Your Posts</button>
-            <button class="btn btn-primary mytabs" >Departments</button>
             &nbsp;&nbsp;Logged in as: <sec:authentication property="principal.username"/>
             <sec:authentication property="principal.authorities"/>
         </div>
@@ -34,8 +30,7 @@
             <p>Ask any queries you have! You're just a question away!</p>
         </div>
 
-        <a href="${pageContext.request.contextPath}/calendar">CLICK</a>
-
+       s
         
           <sec:authorize access="hasRole('TEACHER')">
             <br><br>

@@ -24,7 +24,7 @@
 
         <div class="row ">
             <div class="col-lg-10 date mygrid ">
-                <div class="row">
+                <div class="row will-post">
                     <div class="col-lg-2 mygrid2">${tempPost.student.name}</div>
                     <div class="col-lg-6 mygrid2">${tempPost.content}</div>
                     <div class="col-lg-2 mygrid2"><a href="${tagLink}">#${tempPost.tag}</a></div>

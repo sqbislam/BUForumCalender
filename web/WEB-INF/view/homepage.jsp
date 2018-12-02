@@ -67,9 +67,17 @@
             </c:forEach>
 
             <c:url var="showMore" value="/student/showMore">
-         
+                    <c:param name="flag" value="true"/>
             </c:url>
-            <a href="${showMore}">Show More Posts</a> 
+                    
+            <c:url var="showLess" value="/student/showMore">
+                <c:param name="flag" value="false"/>
+            </c:url>
+                    
+            <a id = "anchor" href="${showMore}">Show More Posts</a>
+            
+            
+            <a href="${showLess}" style="float: right">Show Less Posts</a>
         </div>
 
 

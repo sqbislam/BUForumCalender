@@ -32,5 +32,5 @@ public interface PostDAO {
 
     public void deleteComment(int id);
 
-    public void showMore();
+    public void showMore(String f);
 }

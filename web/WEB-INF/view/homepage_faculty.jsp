@@ -23,10 +23,6 @@
 
         <%@include file="header.jsp" %>
         <div class="topButtons">
-            <button class="btn btn-primary" >Find Courses</button>
-            <button class="btn btn-primary" >Find Faculties</button>
-            <button class="btn btn-primary mytabs" >Your Posts</button>
-            <button class="btn btn-primary mytabs" >Departments</button>
             &nbsp;&nbsp;Logged in as: <sec:authentication property="principal.username"/>
             <sec:authentication property="principal.authorities"/>
         </div>
@@ -57,20 +53,27 @@
             <!--            Loop through all the posts requested-->
             <c:forEach var="tempPost" items="${allPosts}" varStatus="status">
 
-                <c:if test="${status.index <= count}">
+         
 
                   <%@include file = "editLinkNot_faculty.jsp" %>
                   
-                </c:if>
+          
 
             </c:forEach>
 
             
-            <c:url var="showMore" value="/teacher">
-                <c:param name="showMore" value="true"/>
+            <c:url var="showMore" value="/teacher/showMore">
+                <c:param name="flag" value="true"/>
             </c:url>
             
-            <a href="${showMore}">Show More Posts</a> 
+            <c:url var="showLess" value="/teacher/showMore">
+                <c:param name="flag" value="false"/>
+            </c:url>
+            
+            
+            <a href="${showMore}">Show More Posts</a>
+            
+            <a href="${showLess}" style="float: right">Show Less Posts</a>
         </div>
 
  

@@ -9,6 +9,9 @@
 <html>
 <head>
 <meta charset='utf-8' />
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href='<spring:url value="/resources/cse310.css"/>'>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" crossorigin="anonymous">
 <link href='<spring:url value="/resources/calender/fullcalendar.min.css"/>' rel='stylesheet' />
 <link href='<spring:url value="/resources/calender/fullcalendar.print.min.css"/>' rel='stylesheet' media='print' />
 <script src='<spring:url value="/resources/calender/moment.min.js"/>'></script>
@@ -19,8 +22,14 @@
   $(document).ready(function() {
 
     $('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,basicWeek,basicDay'
+      },
       defaultDate: '2018-03-12',
-      editable: true,
+      navLinks: true, // can click day/week names to navigate views
+ 
       eventLimit: true, // allow "more" link when too many events
       events: [
         {
@@ -89,26 +98,35 @@
 <style>
 
   body {
-    margin: 40px 10px;
     padding: 0;
     font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
     font-size: 14px;
+    
   }
 
   #calendar {
-    max-width: 900px;
+    
+    margin: 40px 10px;
+    max-width: 800px;
     margin: 0 auto;
+    background-color: white;
+    float: left
   }
 
 </style>
 
 </head>
 <body>
-    CALENDAR BODY
+    
+    
+
+    <%@include file="header.jsp" %>
+
     <div id='calendar'>
         
         
     </div>
+    <%@include file="footer.jsp" %>
 
 </body>
 </html>
