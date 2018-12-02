@@ -15,6 +15,7 @@
                         <div class="col-lg-2 mygrid2">Post Here</div>
                         <div class="col-lg-10 mygrid2">
                             <form:form action="student/savePost" modelAttribute="posts" method="post">
+                                <form:hidden path = "userTag" value="auth"/>
                                 <form:textarea type = "text" path="content" class="post"/>
                                   &nbsp;&nbsp;#Tag: 
                                          <form:select path="tag" items = "${taglist}">

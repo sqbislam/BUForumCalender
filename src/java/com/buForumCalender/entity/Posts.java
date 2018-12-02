@@ -46,20 +46,20 @@ public class Posts {
     @Column(name="content")
     private String Content;
     
-  
-    
     @Basic
     @Column(name="timestamp")
     private Timestamp timestamp;
 
     @Column(name="tag")
     private String tag;
-    
+
+    @Column(name="usertag")
+    private String userTag;
     
     @ManyToOne(cascade={CascadeType.MERGE,
-                                            CascadeType.REFRESH,
-                                            CascadeType.PERSIST,
-                                            CascadeType.DETACH})
+                        CascadeType.REFRESH,
+                        CascadeType.PERSIST,
+                        CascadeType.DETACH})
     @JoinColumn(name="author_id")
     private Student student;
 
@@ -75,10 +75,7 @@ public class Posts {
     public Posts() {
     }
 
-    
-    
-    
-    
+    // Getter and setter methods for all the attributes of Post
     
     public int getId() {
         return id;
@@ -109,7 +106,7 @@ public class Posts {
     public void attachTime() {
        BuUtils utils = new BuUtils();
        Timestamp temp = utils.postWithTimestamp();
-       
+       this.setTimestamp(temp);
     }
  
     public String getTag() {
@@ -138,6 +135,17 @@ public class Posts {
         this.comments = comments;
     }
 
+    public String getUserTag() {
+        return userTag;
+    }
+
+    public void setUserTag(String userTag) {
+        this.userTag = userTag;
+    }
+    
+    
+    
+
     public void addComment(Comments temp){
     if(comments == null){
         comments = new ArrayList<>();
@@ -146,6 +154,8 @@ public class Posts {
     
     temp.setPosts(this);
     }
+    
+    
     
     
     @Override

@@ -3,59 +3,89 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <html>
-    <body>
+    <head>
         
-        <c:if test="${param.edit != tempPost.id}">
-                    <!-- make url for update -->
-                    <c:url var="tagLink" value="/student">
-                        <c:param name="tag" value="${tempPost.tag}"/>
-                    </c:url> 
-                    <c:url var="deleteLink" value="student/deletePost">
-                        <c:param name="postID" value="${tempPost.id}"/>
-                    </c:url> 
-                    <c:url var="editLink" value="/student?edit=${tempPost.id}&showMore=true#edit">
-                       
-                    </c:url> 
+        <script type="text/javascript" src="<spring:url value="/resources/script.js"/>"></script>
+    </head>
+    <body>
 
-                    <div class="row ">
-                        <div class="col-lg-10 date mygrid ">
-                            <div class="row">
-                                <div class="col-lg-2 mygrid2">${tempPost.student.name}</div>
-                                <div class="col-lg-6 mygrid2">${tempPost.content}</div>
-                                <div class="col-lg-2 mygrid2"><a href="${tagLink}">#${tempPost.tag}</a></div>
-                                <div class="col-lg-1 mygrid2">${tempPost.timestamp}</div>
-                                <div class="col-lg-1 mygrid2">
-                                    <c:if test = "${tempPost.student.users.username eq username}">
-                                        <a href=${deleteLink}>Delete</a>
-                                        <a href=${editLink}>Edit</a>
 
-                                    </c:if>
-                                        
-                                </div>
+        <!-- make url for update -->
+        <c:url var="tagLink" value="/student">
+            <c:param name="tag" value="${tempPost.tag}"/>
+        </c:url> 
+        <c:url var="deleteLink" value="student/deletePost">
+            <c:param name="postID" value="${tempPost.id}"/>
+        </c:url> 
+        <c:url var="editLink" value="/student?edit=${tempPost.id}&showMore=true#edit">
 
-                            </div>
-                                <br>
-                                <form:form action="student/test" modelAttribute="tempComment" method="post">
-                                    <input name="postID" type="hidden" value="${tempPost.id}"/>
-                                    <form:textarea type = "text" path="content" class="post"/>
-                                    <form:button class="btn btn-outline-primary" value="submit">Submit</form:button> 
-                                </form:form>
-                                    
-                                     <br>
-                    Comments: 
-                                        <c:forEach var="tempComment" items="${tempPost.comments}" varStatus="index">
-                                            <br>
-                                            ${index.index}&nbsp;&nbsp;&nbsp;${tempComment.student.name}&nbsp;&nbsp;&nbsp;${tempComment.content}
-                                            
-                                        </c:forEach>
-                        </div>
+        </c:url> 
+
+        <div class="row ">
+            <div class="col-lg-10 date mygrid ">
+                <div class="row">
+                    <div class="col-lg-2 mygrid2">${tempPost.student.name}</div>
+                    <div class="col-lg-6 mygrid2">${tempPost.content}</div>
+                    <div class="col-lg-2 mygrid2"><a href="${tagLink}">#${tempPost.tag}</a></div>
+                    <div class="col-lg-1 mygrid2">${tempPost.timestamp} ${tempPost.userTag}</div>
+                    <div class="col-lg-1 mygrid2">
+                        <c:if test = "${tempPost.student.users.username eq username}">
+                            <a href=${deleteLink}>Delete</a>
+                            <a href=${editLink}>Edit</a>
+                        </c:if>
+
                     </div>
-                    <br>
-                   
-                </c:if>
 
+                </div>
+                <br>
+                <form:form action="student/test" modelAttribute="tempComment" method="post">
+                    <input name="postID" type="hidden" value="${tempPost.id}"/>
+                    <form:textarea type = "text" path="content" class="post"/>
+                    <form:button class="btn btn-outline-primary" value="submit">Submit</form:button> 
+                </form:form>
+
+                <br>
+                
+                <c:if test="${fn:length(tempPost.comments) gt 0}">
+                    <button class="showMoreBtn" onClick="showComments(${status.index}, this)">Show Comments</button>
+                </c:if>
+                
+                <div id="commentBox" class="commentglobal">
+                 
+                    <c:forEach var="tempComment" items="${tempPost.comments}" varStatus="index">
+                        <c:url var="deleteCmtLink" value="student/deleteComment">
+                        <c:param name="commentID" value="${tempComment.id}"/>
+                        </c:url> 
+                        
+                        <br>
+                        <div class="commentlocal">
+                           <table class="commentTBL">
+                            <tr>
+                                <td class="comment">${index.index}</td>
+                                <td class="comment">${tempComment.student.name}</td>
+                                <td class="comment">${tempComment.content}</td>
+                                <td class="comment">${tempComment.timestamp}</td>
+                                <td class="comment">
+                                <c:if test = "${tempComment.student.users.username eq username}">
+                                    <a href="${deleteCmtLink}"> Delete</a>
+                                </c:if>
+                                </td>
+                            </tr>
+                            </table>
+                        </div>
+
+                    </c:forEach>
+                </div>
+                
+                
+            </div>
+        </div>
+        <br>
+
+            <script type="text/javascript" src="<spring:url value="/resources/script.js"/>"></script>
     </body>
 </html>

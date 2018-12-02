@@ -5,7 +5,10 @@
  */
 package com.buForumCalender.entity;
 
+import com.buForumCalender.utils.BuUtils;
+import java.sql.Timestamp;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,6 +40,11 @@ public class Comments {
 
     @Column(name = "student_id", insertable = false, updatable = false)
     private int student_id;
+    
+    @Basic
+    @Column(name="timestamp")
+    private Timestamp timestamp;
+
 
     @ManyToOne(cascade = {CascadeType.MERGE,
         CascadeType.REFRESH,
@@ -87,6 +95,21 @@ public class Comments {
 
     public void setPosts(Posts posts) {
         this.posts = posts;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
+    
+  
+    public void attachTime() {
+       BuUtils utils = new BuUtils();
+       Timestamp temp = utils.postWithTimestamp();
+       this.setTimestamp(temp);
     }
 
 }

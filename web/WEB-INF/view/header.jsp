@@ -38,8 +38,10 @@
                 <div class="collapse navbar-collapse" id="bs-nav-demo">
                     <ul class="nav navbar-nav">
                         <!-- anything you want to give on the right give them between <li> Your component here</li> -->
+                        <sec:authorize access="hasRole('STUDENT')">
                         <li><a href="/BUforumCalender/student">Home</a></li>
-                        <li><a href="#">About</a></li>
+                        </sec:authorize>
+                        <li><a href="${pageContext.request.contextPath}/teacher">About</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
 
@@ -49,7 +51,7 @@
                         <li>
                             <div class="searchbar">
                                 <form role="search">
-                                    <input method="GET" name="tag" type="text" placeholder="Search"/>
+                                    <input name="tag" type="text" placeholder="Search"/>
                                         <button type="submit" class = "btn btn-default" >Go!</button>
                                     </form>
                             </div>

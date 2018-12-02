@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +37,9 @@ public class buForumCalenderController {
     
     private Model theModel;
     
-    private int count = 1;
+    private int count = 5;
+    
+    private String authority;
     
     @RequestMapping("/")
     public String home(){
@@ -46,14 +49,17 @@ public class buForumCalenderController {
     @RequestMapping("/student")
     public String homeStudent(Model theModel, 
             @RequestParam(value = "tag", required = false) String tag,
-            @RequestParam(value = "edit", required = false) String id,
-            @RequestParam(value = "showMore", required = false) String showMore) {
+            @RequestParam(value = "edit", required = false) String id) 
+    
+         {
         
         this.theModel = theModel;
         
         //Get current username
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        authority = userDetails.getAuthorities().toString();
         
 
         //if tag not specified make it General
@@ -89,12 +95,8 @@ public class buForumCalenderController {
         //Add tags
         theModel.addAttribute("taglist", tags);
         
-        if(showMore != null){
-        count = count + 1;
-        }else{
-        count = 1;}
-        //Add count
-        theModel.addAttribute("count", count);
+        //add user authority
+        theModel.addAttribute("auth", authority);
         
         if(id!=null){
         Posts temp = postDAO.getPostByID(Integer.valueOf(id));
@@ -125,7 +127,7 @@ public class buForumCalenderController {
     public String savePost(@ModelAttribute("posts") Posts tempPost) {
         //checking if post is empty
         if (!"".equals(tempPost.getContent().trim())) {
-            postDAO.savePost(tempPost);
+            postDAO.savePost(tempPost,authority);
         }
 
         return "redirect:/student";
@@ -153,21 +155,48 @@ public class buForumCalenderController {
       public String editPost(@ModelAttribute("temp") Posts tempPost) {
         //checking if post is empty
         if (!"".equals(tempPost.getContent().trim())) {
-            postDAO.savePost(tempPost);
+            postDAO.savePost(tempPost,authority);
         }
 
         return "redirect:/student";
         
 
     }
-
+      
+    @GetMapping("/student/deleteComment")
+    public String deleteComment(@RequestParam(value="commentID") int id){
+        
+        postDAO.deleteComment(id);
+        
+        return "redirect:/student";
+    }
+    
+    @RequestMapping("student/showMore")
+    public String showMore(){
+        postDAO.showMore();
+        return "redirect:/student";        
+    }
+      
+      
     private Map<String, String> getTags() {
        Map< String, String > tags = new HashMap<String, String>();
         tags.put("cse320", "Cse320");
         tags.put("cse310", "Cse310");
         tags.put("cse230", "Cse230");
+        tags.put("cse110", "Cse110");
+        tags.put("cse111", "Cse111");
+        tags.put("cse260", "Cse260");
+        tags.put("cse422", "Cse422");
+        tags.put("cse250", "Cse250");
+        tags.put("cse251", "Cse251");
         return tags;
     }
+    
+    
 
+    @RequestMapping("/calendar")
+    public String showCalender(){
+        return "calendar";
+    }
    
 }

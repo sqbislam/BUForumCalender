@@ -34,13 +34,13 @@
             <p>Ask any queries you have! You're just a question away!</p>
         </div>
 
-        
-        
+        <a href="${pageContext.request.contextPath}/calendar">CLICK</a>
+
         
           <sec:authorize access="hasRole('TEACHER')">
             <br><br>
             <a href="${pageContext.request.contextPath}/teacher/edit">EDIT CALENDER</a>
-        </sec:authorize>
+          </sec:authorize>
 
         <%@include file="footer.jsp" %>
 

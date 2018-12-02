@@ -9,8 +9,7 @@
     <body>
 
                 
-                <c:if test="${param.edit == tempPost.id}">
-
+      
 
                     <c:url var="deleteLink" value="student/deletePost">
                         <c:param name="postID" value="${tempPost.id}"/>
@@ -22,6 +21,7 @@
                             <div class="row">
                                 <form:form action="student/editPost" modelAttribute="temp" method="post">
                                     <form:hidden path = "id" />
+                                    <form:hidden path = "userTag" value="${auth}"/>
                                     <div class="col-lg-2 mygrid2">${tempPost.student.name}</div>
                                     <div class="col-lg-6 mygrid2">
                                         <form:textarea path="content" class="post"></form:textarea> 
@@ -38,7 +38,7 @@
                                         <c:if test = "${tempPost.student.users.username eq username}">
                                             <a href=${deleteLink}>Delete</a>
                                         </c:if>
-                                        <form:button class="btn btn-outline-primary btn-sm" value="submit">
+                                        <form:button class="btn btn-sm commentBtn" value="submit">
                                             Submit
                                         </form:button>
                                     </form:form>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <br>
-                </c:if>
+             
     </body>
 </html>
 

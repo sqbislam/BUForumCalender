@@ -18,7 +18,7 @@ public interface PostDAO {
 
     public List<Posts> getAllPosts();
     public List<Posts> getPosts(String tag);
-    public void savePost(Posts temp);
+    public void savePost(Posts temp, String user);
 
     public void deletePost(int id);
 
@@ -27,4 +27,10 @@ public interface PostDAO {
     public Posts getPostByID(int id);
 
     public void saveComment(Comments tempComment, int postID);
+
+    public List<Posts> getGeneralPosts();
+
+    public void deleteComment(int id);
+
+    public void showMore();
 }

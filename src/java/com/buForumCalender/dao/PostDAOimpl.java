@@ -25,8 +25,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class PostDAOimpl implements PostDAO {
-
-   
+    
+    int showMoreCount = 5;
+    
     @Autowired
     StudentDAO studentDAO;
 
@@ -35,7 +36,7 @@ public class PostDAOimpl implements PostDAO {
 
     @Override
     @Transactional
-    public void savePost(Posts tempPost) {
+    public void savePost(Posts tempPost, String user) {
 
         //get current session
         //get username of current student and find Student object accordingly
@@ -46,6 +47,7 @@ public class PostDAOimpl implements PostDAO {
         //atttach timestamp to post object
         tempPost.attachTime();
         
+        tempPost.setUserTag(user);
         //get current session
         Session currentSession = sessionfactory.getCurrentSession();
         student.addPost(tempPost);
@@ -63,14 +65,31 @@ public class PostDAOimpl implements PostDAO {
         Session current = sessionfactory.getCurrentSession();
 
         //create query
-        Query<Posts> query = current.createQuery("from Posts p ORDER BY p.timestamp DESC", Posts.class);
-
+        Query<Posts> query = current.createQuery("from Posts p WHERE p.userTag!='[ROLE_TEACHER]' ORDER BY p.timestamp DESC", Posts.class);
+        
+        query.setMaxResults(showMoreCount);
         //get resutls
         List<Posts> posts = query.getResultList();
 
         return posts;
     }
     
+     @Override
+     @Transactional
+    public List<Posts> getGeneralPosts() {
+       //get current session
+        Session current = sessionfactory.getCurrentSession();
+
+        //create query
+        Query<Posts> query = current.createQuery("from Posts p WHERE p.userTag='[ROLE_TEACHER]'ORDER BY p.timestamp DESC", Posts.class);
+        
+        query.setMaxResults(showMoreCount);
+        
+        //get resutls
+        List<Posts> posts = query.getResultList();
+
+        return posts;
+    }
     
     @Override
     @Transactional
@@ -80,7 +99,7 @@ public class PostDAOimpl implements PostDAO {
 
         //create query
         Query<Posts> query = current.createQuery("from Posts p WHERE tag LIKE '%"+tag+"%' ORDER BY p.timestamp DESC", Posts.class);
-
+        
         //get resutls
         List<Posts> posts = query.getResultList();
 
@@ -128,6 +147,7 @@ public class PostDAOimpl implements PostDAO {
     @Transactional
     public void saveComment(Comments tempComment, int postID) {
        //get current session
+        tempComment.attachTime();
         //get username of current student and find Student object accordingly
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -146,6 +166,24 @@ public class PostDAOimpl implements PostDAO {
         //Save the comment obj
         current.save(tempComment);
     }
+
+    @Override
+    @Transactional
+    public void deleteComment(int id) {
+               //get current session
+        Session current = sessionfactory.getCurrentSession();
+        
+        Query query = current.createSQLQuery("delete from Comments where id=:commentID");
+        query.setParameter("commentID", id);
+        query.executeUpdate();
+    }
+
+    @Override
+    public void showMore() {
+        showMoreCount += 5;
+    }
+
+   
     
     
 
