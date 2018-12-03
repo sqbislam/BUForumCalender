@@ -83,9 +83,7 @@
                         <div class="wrongpass">Invalid Username or Password</div>
                         </c:if>
                     </div>
-                    <div class="fyp">
-                        <button class="btn btn-default btn-lg active">Forgot your password?</button>
-                    </div>
+                
                 </div>
 
             </div>

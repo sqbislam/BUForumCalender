@@ -14,13 +14,16 @@ import com.buForumCalender.dao.PostDAO;
 import com.buForumCalender.entity.Comments;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.http.MediaType;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -204,5 +207,14 @@ public class buForumCalenderController {
     public String showCalender(){
         return "calendar";
     }
-   
+//    
+//   @GetMapping(value = "/events",produces = MediaType.APPLICATION_JSON_VALUE)
+//   @ResponseBody
+//   public JSONObject data(@RequestBody String load) 
+//        {
+//            org.json.JSONObject obj = new org.json.JSONObject();
+//            obj.put("Status", "Success");
+//            obj.put("Details","DB updated");
+//            return obj;
+//         }
 }

@@ -17,24 +17,39 @@
 <script src='<spring:url value="/resources/calender/moment.min.js"/>'></script>
 <script src='<spring:url value="/resources/calender/jquery.min.js"/>'></script>
 <script src='<spring:url value="/resources/calender/fullcalendar.min.js"/>'></script>
-<script>
 
-  $(document).ready(function() {
+<script>
+ 
+ 
+ $.getJSON('events', function (json) {
+var array = [];
+for (var key in json) {
+    if (json.hasOwnProperty(key)) {
+        var item = json[key];
+        array.push({
+            title: item.title,
+            start: item.start
+        });            
+    }
+}
+});
+
+ $(document).ready(function() {
 
     $('#calendar').fullCalendar({
       header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'month,basicWeek,basicDay'
+        right: 'month,agendaWeek,agendaDay,listWeek'
       },
       defaultDate: '2018-03-12',
       navLinks: true, // can click day/week names to navigate views
- 
+      editable: true,
       eventLimit: true, // allow "more" link when too many events
       events: [
         {
           title: 'All Day Event',
-          start: '2018-03-01'
+          start: '2018-03-01',
         },
         {
           title: 'Long Event',
@@ -78,8 +93,8 @@
           start: '2018-03-12T20:00:00'
         },
         {
-          title: 'Potato Party',
-          start: '2018-03-13T09:00:00'
+          title: 'Birthday Party',
+          start: '2018-03-13T07:00:00'
         },
         {
           title: 'Click for Google',
@@ -96,7 +111,25 @@
 
 
 <style>
+  #script-warning {
+    display: none;
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+    padding: 0 10px;
+    line-height: 40px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    color: red;
+  }
 
+  #loading {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
   body {
     padding: 0;
     font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
@@ -104,29 +137,27 @@
     
   }
 
-  #calendar {
-    
-    margin: 40px 10px;
+ #calendar {
     max-width: 800px;
-    margin: 0 auto;
     background-color: white;
-    float: left
+    margin: 40px auto;
+    padding: 0 10px;
+    float:left;
   }
 
 </style>
 
 </head>
+
 <body>
     
     
-
     <%@include file="header.jsp" %>
 
     <div id='calendar'>
         
         
     </div>
-    <%@include file="footer.jsp" %>
 
 </body>
 </html>
